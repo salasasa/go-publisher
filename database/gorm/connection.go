@@ -24,7 +24,7 @@ func ConnertPostDB(confDir, confFile, confFileType, logDir string) {
 	username := viper.GetString("go_publisher.username")
 	password := viper.GetString("go_publisher.password")
 	dbname := "go_publisher"
-	logFilePath := viper.GetString("go_publisher.log")
+	logFilePath := logDir + viper.GetString("go_publisher.log")
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, dbname)
 
 	logFile, err := os.OpenFile(logFilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)

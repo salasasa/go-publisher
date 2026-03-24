@@ -1,0 +1,30 @@
+
+2026/03/24 20:42:59 /home/arc/go-publisher/database/gorm/user.go:18 Error 1062 (23000): Duplicate entry 'ArcE' for key 'user.idx_name'
+[1.282ms] [rows:0] INSERT INTO `user` (`name`,`password`) VALUES ('ArcE','e10adc3949ba59abbe56e057f20f883e')
+
+2026/03/24 20:43:45 /home/arc/go-publisher/database/gorm/user.go:18 Error 1062 (23000): Duplicate entry 'ArcE' for key 'user.idx_name'
+[1.300ms] [rows:0] INSERT INTO `user` (`name`,`password`) VALUES ('ArcE','e10adc3949ba59abbe56e057f20f883e')
+
+2026/03/24 20:50:02 /home/arc/go-publisher/database/gorm/user.go:37
+[0.732ms] [rows:0] DELETE FROM `user` WHERE `user`.`id` = 5
+
+2026/03/24 20:50:30 /home/arc/go-publisher/database/gorm/user.go:37
+[8.341ms] [rows:1] DELETE FROM `user` WHERE `user`.`id` = 1
+
+2026/03/25 00:22:13 /home/arc/go-publisher/database/gorm/user.go:18
+[2.298ms] [rows:1] INSERT INTO `user` (`name`,`password`) VALUES ('arce','827ccb0eea8a706c4c34a16891f84e7b')
+
+2026/03/25 00:22:18 /home/arc/go-publisher/database/gorm/user.go:62
+[1.108ms] [rows:0] SELECT * FROM `user` WHERE name = '' ORDER BY `user`.`id` LIMIT 1
+
+2026/03/25 00:24:37 /home/arc/go-publisher/database/gorm/user.go:62
+[0.955ms] [rows:0] SELECT * FROM `user` WHERE name = '' ORDER BY `user`.`id` LIMIT 1
+
+2026/03/25 00:24:53 /home/arc/go-publisher/database/gorm/user.go:62
+[0.584ms] [rows:0] SELECT * FROM `user` WHERE name = '' ORDER BY `user`.`id` LIMIT 1
+
+2026/03/25 00:25:02 /home/arc/go-publisher/database/gorm/user.go:62
+[0.856ms] [rows:1] SELECT * FROM `user` WHERE name = 'arce' ORDER BY `user`.`id` LIMIT 1
+
+2026/03/25 00:26:31 /home/arc/go-publisher/database/gorm/user.go:88
+[2.656ms] [rows:1] UPDATE `user` SET `password`='202cb962ac59075b964b07152d234b70' WHERE id = 6 AND password = '827ccb0eea8a706c4c34a16891f84e7b'
