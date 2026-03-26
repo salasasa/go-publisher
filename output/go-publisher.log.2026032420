@@ -1,2 +1,0 @@
-time="2026-03-24 20:43:45.434" level=INFO source=/home/arc/go-publisher/database/gorm/user_test.go:31 msg=try
-time="2026-03-24 20:50:02.057" level=ERROR source=/home/arc/go-publisher/database/gorm/user_test.go:50 msg="用户注销失败，uid 5不存在"

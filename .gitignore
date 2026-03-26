@@ -1,2 +1,8 @@
 db.yaml
 create_table.sql
+jwt.yaml
+
+# logs
+output/*.log
+output/*.db.log
+output/*.log.*
