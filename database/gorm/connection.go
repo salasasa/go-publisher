@@ -3,6 +3,7 @@ package gorm
 import (
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"time"
 
@@ -64,4 +65,21 @@ func ConnertPostDB(confDir, confFile, confFileType, logDir string) {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	GoPublisherDB = db
+}
+
+// 定期ping，保持连接的活跃
+func PingPostDB() {
+	if GoPublisherDB != nil {
+		sqlDB, _ := GoPublisherDB.DB()
+		sqlDB.Ping()
+		slog.Info("ping post db")
+	}
+}
+
+// 关闭数据库连接
+func ClosePostDB() {
+	if GoPublisherDB != nil {
+		sqlDB, _ := GoPublisherDB.DB()
+		sqlDB.Close()
+	}
 }

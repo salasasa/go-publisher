@@ -1,9 +1,14 @@
 package main
 
 import (
+	"log/slog"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/gin-gonic/gin"
+	"github.com/robfig/cron/v3"
 	"github.com/salasasa/go-publisher/database/gorm"
 	handler "github.com/salasasa/go-publisher/handler/gin"
 	"github.com/salasasa/go-publisher/util"
@@ -12,10 +17,25 @@ import (
 func Init() {
 	util.InitSlog("./output/go-publisher.log")
 	gorm.ConnertPostDB("./conf", "db.yaml", util.YAML, "./output/")
+
+	crontab := cron.New()
+	crontab.AddFunc("*/21 * * * *", gorm.PingPostDB) // 分，时，日，月，星期。每隔21分钟ping一次数据库
+	crontab.Start()
+}
+
+func ListenTermSignal() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM) //注册信号2和15。Ctrl+C对应SIGINT信号
+	sig := <-c                                        //阻塞，直到信号的到来
+	slog.Info("receive term signal " + sig.String() + ", going to exit")
+	gorm.ClosePostDB() //关闭数据库连接
+	os.Exit(0)         //进程退出
 }
 
 func main() {
 	Init()
+	go ListenTermSignal()
+
 	engine := gin.Default()
 	engine.Static("/js", "./views/js")
 	engine.Static("/css", "./views/css")
