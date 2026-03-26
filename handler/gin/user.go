@@ -54,14 +54,14 @@ func Login(ctx *gin.Context) {
 		ctx.String(http.StatusInternalServerError, "token生成失败")
 		return
 	} else {
-		ctx.SetCookie(COOKIE_NAME, token, COOKIE_LIFE, "/", "192.168.10.110", false, true)
+		ctx.SetCookie(COOKIE_NAME, token, COOKIE_LIFE, "/", "", false, true)
 	}
 
 	// ctx.SetCookie("uid", strconv.Itoa(userData.Id), 86400, "/", "192.168.10.110", false, true)
 }
 
 func Logout(ctx *gin.Context) {
-	ctx.SetCookie(COOKIE_NAME, "", -1, "/", "192.168.10.110", false, true)
+	ctx.SetCookie(COOKIE_NAME, "", -1, "/", "", false, true)
 }
 
 func UpdatePassword(ctx *gin.Context) {
@@ -97,4 +97,16 @@ func GetUidFromCookie(ctx *gin.Context) int {
 	// 	}
 	// }
 	return 0
+}
+
+func GetUserInfo(ctx *gin.Context) {
+	loginUid := GetLoginUid(ctx)
+	if loginUid > 0 { //成功从cookie里拿到了登录者的user id
+		user := gorm.GetUserById(loginUid)
+		if user != nil {
+			ctx.JSON(http.StatusOK, user) //返回用户信息
+			return
+		}
+	}
+	ctx.JSON(http.StatusOK, model.User{})
 }

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log/slog"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,15 +43,18 @@ func GetLoginUid(ctx *gin.Context) int {
 func GetUidFromJwt(token string) int {
 	_, jwtPayload, err := util.VerifyJwt(token, KeyConfig.GetString("secret"))
 	if err != nil {
+		slog.Error("VerifyJwt failed", "error", err)
 		return 0
 	}
 	userData := jwtPayload.UserDefined
 	if userData == nil {
+		slog.Error("userData is nil")
 		return 0
 	}
-	uid, ok := userData[UID_IN_TOKEN].(int)
+	uid, ok := userData[UID_IN_TOKEN].(float64)
 	if !ok {
+		slog.Error("uid is not int")
 		return 0
 	}
-	return uid
+	return int(uid)
 }
